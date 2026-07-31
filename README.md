@@ -14,9 +14,7 @@ A fully self-contained, real-time analog quartz clock rendered entirely in SVG, 
 
 ## Usage
 
-Just open the HTML file in any modern browser — desktop or mobile.
-
-On iPhone/iPad, open it in Safari and use **Share → Add to Home Screen** to run it full-screen like a native app.
+Just open the [Quartz Clock](https://tengyanhaiin-star.github.io/Quartz-Clock/) in any modern browser — desktop or mobile.
 
 ## How it's built
 
@@ -27,14 +25,6 @@ On iPhone/iPad, open it in Safari and use **Share → Add to Home Screen** to ru
 | Fonts | Google Fonts — Alata (hour numerals), DM Sans (face labels), DM Mono (digital readout) |
 | Responsive sizing | CSS (`dvh`, `vmin`, `clamp()`, safe-area insets) plus a small resize-aware script that measures the digital panel and fits the analog face to the remaining space |
 | No frameworks | Plain JavaScript — no React, no build tools, no external libraries |
-
-## Customization
-
-All key visual parameters live near the top of the `<style>` block and are easy to tweak:
-
-- `MAX_CLOCK_SIZE`-style caps have been removed — the face now scales freely with the window.
-- Digital readout font sizes: `#timeStr` and `#dateStr` use `clamp(min, preferred-vmin, max)` so you can adjust the minimum, scaling rate, and maximum independently.
-- Colors, glow, and letter-spacing for the digital display can be edited directly in the `#timeStr` / `#dateStr` rules.
 
 ## 📄 License
 
