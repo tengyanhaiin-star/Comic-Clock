@@ -286,6 +286,28 @@
     ctx.textAlign = prevAlign;
   }
 
+  // Draw text vertically centered on `y` using the glyph's *actual* rendered
+  // bounding box rather than the `middle` text baseline. `textBaseline:
+  // "middle"` is derived from each browser/font's internal ascent/descent
+  // metrics, which Chrome (desktop) and Safari (iOS) can report differently
+  // for the same web font — causing the same y to look vertically offset
+  // across platforms. `actualBoundingBoxAscent/Descent` reflect the glyph's
+  // real rendered pixels, so centering off of them is consistent everywhere.
+  function fillTextCentered(ctx, text, x, y) {
+    const prevBaseline = ctx.textBaseline;
+    ctx.textBaseline = "alphabetic";
+    const metrics = ctx.measureText(text);
+    const ascent = metrics.actualBoundingBoxAscent;
+    const descent = metrics.actualBoundingBoxDescent;
+    let yOffset = 0;
+    if (typeof ascent === "number" && typeof descent === "number" &&
+        !Number.isNaN(ascent) && !Number.isNaN(descent)) {
+      yOffset = (ascent - descent) / 2;
+    }
+    ctx.fillText(text, x, y + yOffset);
+    ctx.textBaseline = prevBaseline;
+  }
+
   function drawHandShape(ctx, deg, rectSpec, pathPoints, gradXStart, gradXEnd, withShadow) {
     ctx.save();
     ctx.translate(cx, cy);
@@ -367,7 +389,6 @@
 
     // Numbers
     ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
     ctx.fillStyle = "#1c2340";
     ctx.font = "400 64px 'Alata', sans-serif";
     for (let n = 1; n <= 12; n++) {
@@ -375,7 +396,7 @@
       const numR = faceR - 40;
       const x = cx + numR * Math.cos(angle);
       const y = cy + numR * Math.sin(angle);
-      ctx.fillText(String(n), x, y);
+      fillTextCentered(ctx, String(n), x, y);
     }
 
     // Brand labels
